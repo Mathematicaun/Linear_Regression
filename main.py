@@ -1,5 +1,12 @@
 import numpy as np  # Import NumPy library for numerical operations
+import customtkinter as ctk
 import matplotlib.pyplot as plt  # Import Matplotlib library for plotting
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+root = ctk.CTk()
+root.title('The Linear Regression')
+frame = ctk.CTkFrame(master=root, corner_radius=50)
+frame.pack(fill=ctk.BOTH, expand=True)
 
 # Set step size for data points
 step = 1/2
@@ -85,7 +92,10 @@ for _ in Legend.get_texts():
 plt.grid(color='gray', alpha=.15)
 ax.set_xlabel('$\\text{x data point}$', color='white')
 ax.set_ylabel('$\\text{y data point}$', color='white')
-ax.set_xticklabels(np.arange(0, step*cardinality, step), color='gray')
+ax.set_xticks(np.arange(-5, 15, 2))
+ax.set_yticks(np.arange(0, 1, .2))
+ax.set_xticklabels(np.arange(-5, 15, 2), color='gray')
+ax.set_yticklabels([f'{_: .1f}' for _ in np.arange(0, 1, .2)], color='gray')
 
 spiness = ['bottom', 'top', 'left', 'right']
 
@@ -95,4 +105,10 @@ for _ in spiness:
     else:
         ax.spines[_].set(visible=False)
 #fig.savefig('data_points.png', dpi=500)
-plt.show()
+plt.tight_layout()
+
+can1 = FigureCanvasTkAgg(fig, master=frame)
+can1.draw()
+can1.get_tk_widget().pack(side=ctk.LEFT, fill=ctk.BOTH, expand=True)
+
+root.mainloop()
